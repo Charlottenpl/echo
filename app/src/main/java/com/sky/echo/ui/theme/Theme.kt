@@ -37,13 +37,39 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+
+private val EchoColorScheme = lightColorScheme(
+    primary = Purple40,
+    secondary = PurpleGrey40,
+    tertiary = Pink40
+
+    /* Other default colors to override
+    background = Color(0xFFFFFBFE),
+    surface = Color(0xFFFFFBFE),
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onTertiary = Color.White,
+    onBackground = Color(0xFF1C1B1F),
+    onSurface = Color(0xFF1C1B1F),
+    */
+)
+
+
+
+/**
+ * 设置应用主题
+ * type:
+ */
 @Composable
 fun EchoTheme(
+    type: Int = getDefaultTheme(),
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+
+    /** 定义颜色方案 */
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -51,8 +77,12 @@ fun EchoTheme(
         }
 
         darkTheme -> DarkColorScheme
+        type == 0 -> EchoColorScheme
+        type == 1 -> LightColorScheme
         else -> LightColorScheme
     }
+
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
@@ -62,9 +92,15 @@ fun EchoTheme(
         }
     }
 
+
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content
     )
+}
+
+
+fun getDefaultTheme() : Int{
+    return 1
 }
