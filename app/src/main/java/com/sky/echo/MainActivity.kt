@@ -10,6 +10,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavArgument
+import androidx.navigation.NavArgumentBuilder
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.sky.echo.common.Route
+import com.sky.echo.ui.page.home.HomePage
+import com.sky.echo.ui.page.login.LoginPage
+import com.sky.echo.ui.page.welcome.WelcomePage
 import com.sky.echo.ui.theme.EchoTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,30 +28,42 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EchoTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                AppNav()
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     EchoTheme {
-        Greeting("Android")
+
+    }
+}
+
+
+@Composable
+private fun AppNav(){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = Route.welcome){
+        composable(Route.welcome){
+            WelcomePage(toLogin = { navController.navigate(Route.login) })
+        }
+
+        composable(Route.login){
+            LoginPage(toHome = {user ->
+                var username = if (user.isNullOrEmpty()) "Guest" else user
+                navController.navigate("${Route.home}/$username")
+            })
+        }
+
+
+        composable("${Route.home}/{${Route.home_user}}", arguments = listOf(
+            navArgument(Route.home_user){ type = NavType.StringType }
+        )){ params ->
+            HomePage(params.arguments?.getString(Route.home_user)!!)
+        }
+
     }
 }
