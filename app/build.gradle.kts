@@ -80,4 +80,7 @@ dependencies {
 
     // Jetpack Compose Integration
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
 }
