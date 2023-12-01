@@ -20,7 +20,7 @@ import com.sky.echo.viewmodel.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage(viewModel: LoginViewModel, toHome: (String) -> Unit) {
+fun LoginPage(viewModel: LoginViewModel, toHome: (String?) -> Unit) {
     val state by viewModel.state.observeAsState()
 
 
@@ -43,9 +43,10 @@ fun LoginPage(viewModel: LoginViewModel, toHome: (String) -> Unit) {
         }
     }
 
-    if (state?.loginState == true) {
-        LaunchedEffect(Unit) {
-            toHome("charlotte")
+    // 当登录状态变为 true 时，只执行一次导航
+    LaunchedEffect(state?.loginState) {
+        if (state?.loginState == true) {
+            toHome(state?.username)
         }
     }
 }

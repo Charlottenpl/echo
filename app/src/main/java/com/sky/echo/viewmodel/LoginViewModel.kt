@@ -16,8 +16,13 @@ class LoginViewModel : ViewModel() {
             is LoginIntent.UpdateUsername -> updateUserName(intent.username)
             is LoginIntent.UpdatePassword -> updatePassword(intent.password)
             is LoginIntent.Login -> login()
+            is LoginIntent.Logout -> logout()
 
         }
+    }
+
+    private fun logout() {
+        _state.value = _state.value?.copy(username = "", loginState = false)
     }
 
     private fun updateUserName(username: String) {
