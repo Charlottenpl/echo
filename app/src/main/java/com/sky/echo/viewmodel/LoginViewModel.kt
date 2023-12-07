@@ -1,5 +1,6 @@
 package com.sky.echo.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,6 +38,7 @@ class LoginViewModel : ViewModel() {
     private fun login(username: String? = _state.value?.username, password: String? = _state.value?.password){
         //TODO 登录操作
         _state.value = _state.value?.copy(loginState = true)
+        Log.e("login", "loginState: ${_state.value?.loginState}", )
     }
 
 

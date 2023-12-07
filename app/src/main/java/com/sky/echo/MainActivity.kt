@@ -4,24 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavArgument
-import androidx.navigation.NavArgumentBuilder
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.sky.echo.common.Route
@@ -67,13 +56,13 @@ private fun AppNav(){
         }
 
         composable(Route.login){
-            LoginPage(viewModel = loginViewModel, toHome = {user ->
-                navController.navigate("${Route.home}/$user"){
+            LoginPage(viewModel = loginViewModel) { user ->
+                navController.navigate("${Route.home}/${if (user.isNullOrEmpty())"Guest" else user}") {
                     /** Route.welcome表示移除welcomePage以上的所有页面包括loginPage */
                     popUpTo(Route.welcome) { inclusive = true }
                     launchSingleTop = true
                 }
-            })
+            }
         }
 
 
