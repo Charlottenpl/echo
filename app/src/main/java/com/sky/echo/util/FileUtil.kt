@@ -2,6 +2,7 @@ package com.sky.echo.util
 
 import android.graphics.Bitmap
 import android.os.Build
+import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -38,6 +39,7 @@ object FileUtil {
                     output
                 )
             }
+            Log.e("dev", "save to $path")
             true
         } catch (e: IOException) {
             false
