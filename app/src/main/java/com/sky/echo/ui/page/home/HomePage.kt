@@ -144,7 +144,7 @@ fun HomePage(user: String = "1234"){
                                 )
                                 .padding(5.dp, 0.dp)
                         ){
-                            Text(text = "VIP",fontSize = 14.sp)
+                            Text(text = "VIP",fontSize = 12.sp)
                         }
                     }
                 }
