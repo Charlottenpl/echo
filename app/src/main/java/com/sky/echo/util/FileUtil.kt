@@ -1,5 +1,6 @@
 package com.sky.echo.util
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import android.util.Log
@@ -9,9 +10,14 @@ import java.io.IOException
 
 object FileUtil {
 
-    const val catch_path = "catch/"
-    const val image_path = "image/"
-    const val music_path = "music/"
+    private lateinit var base_path: String;
+    const val image_path = "/image/"
+    const val music_path = "/music/"
+
+
+    fun init(context: Context){
+        base_path = context.filesDir.path
+    }
 
 
     fun isExist(path: String): Boolean{
@@ -24,13 +30,14 @@ object FileUtil {
     }
 
     fun imagePath(fileName: String): String{
-        return catch_path + image_path + fileName
+        return base_path + image_path + fileName
     }
 
 
     fun saveImage(bitmap: Bitmap, path: String): Boolean{
         return try {
             val file = File(path)
+            Log.e("file save", "saveImage: $base_path", )
             file.parentFile?.mkdirs() // 确保父目录存在
             FileOutputStream(file).use { output ->
                 bitmap.compress(

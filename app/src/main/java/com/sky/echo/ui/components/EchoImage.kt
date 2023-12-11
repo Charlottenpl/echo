@@ -39,6 +39,7 @@ fun EchoImage(imageUrl: String, localImagePath: String, modifier: Modifier = Mod
         if (file.exists()) {
             show("图片存在")
             bitmap = BitmapFactory.decodeFile(localImagePath)
+            state = 2
         } else {
             show("图片不存在，从网络下载")
             // 从网络下载图片

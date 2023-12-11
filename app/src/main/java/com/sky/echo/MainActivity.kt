@@ -1,5 +1,6 @@
 package com.sky.echo
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -18,16 +19,23 @@ import com.sky.echo.ui.page.home.HomePage
 import com.sky.echo.ui.page.login.LoginPage
 import com.sky.echo.ui.page.welcome.WelcomePage
 import com.sky.echo.ui.theme.EchoTheme
+import com.sky.echo.util.FileUtil
 import com.sky.echo.viewmodel.LoginViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        init(applicationContext);
         setContent {
             EchoTheme {
                 AppNav()
             }
         }
+    }
+
+
+    fun init(context: Context){
+        FileUtil.init(context)
     }
 }
 
