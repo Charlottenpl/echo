@@ -3,6 +3,7 @@ package com.sky.echo
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.netease.nis.quicklogin.listener.QuickLoginTokenListener
 import com.sky.echo.common.Route
 import com.sky.echo.ui.page.home.HomePage
 import com.sky.echo.ui.page.login.LoginPage
@@ -21,6 +23,8 @@ import com.sky.echo.ui.page.welcome.WelcomePage
 import com.sky.echo.ui.theme.EchoTheme
 import com.sky.echo.util.FileUtil
 import com.sky.echo.viewmodel.LoginViewModel
+import com.sky.quick_login.QuickLoginManager
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +64,19 @@ private fun AppNav(){
 
     NavHost(navController = navController, startDestination = Route.welcome){
         composable(Route.welcome){
-            WelcomePage(toLogin = { navController.navigate(Route.login) })
+            WelcomePage(toLogin = {
+//                navController.navigate(Route.login)
+                QuickLoginManager.login(object : QuickLoginTokenListener() {
+                    override fun onGetTokenSuccess(p0: String?, p1: String?) {
+                        Log.e("QuickLogin", "onGetTokenSuccess: $p0 : $p1", )
+                    }
+
+                    override fun onGetTokenError(p0: String?, p1: String?) {
+                        Log.e("QuickLogin", "onGetTokenError: $p0 : $p1", )
+                    }
+
+                })
+            })
         }
 
         composable(Route.login){

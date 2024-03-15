@@ -3,7 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--本权限用于移动运营商在双卡情况下更精准地获取数据流量卡的运营商类型，缺少该权限存在取号失败率上升的风险-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Echo"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        tools:replace="android:allowBackup,android:appComponentFactory"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
         <activity
             android:name=".MainActivity"
             android:exported="true"

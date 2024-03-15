@@ -20,15 +20,67 @@ android {
         }
     }
 
+    flavorDimensions.add("test")
+
+    signingConfigs {
+        register("echo"){
+            isV1SigningEnabled = true
+            isV2SigningEnabled = true
+            storeFile = file("./echo.jks")
+            storePassword = "echo123"
+            keyAlias = "echo"
+            keyPassword = "echo123"
+        }
+
+        register("zeus"){
+            storeFile = file("./mujianchen.jsk")
+            keyAlias = "mujianchen"
+            keyPassword = "mu123456"
+            storePassword = "mu123456"
+        }
+    }
+
+
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("zeus")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("zeus")
         }
     }
+
+
+
+    productFlavors {
+
+        register("echo"){
+            dimension = "test"
+            applicationId = "com.sky.echo"
+            versionCode = 1
+            versionName = "1.0"
+        }
+
+
+        register("zeus"){
+            dimension = "test"
+            applicationId = "com.topjoy.sdk_demo"
+            versionCode = 38
+            versionName = "1.0.38"
+        }
+    }
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -51,9 +103,9 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.1")
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.activity:activity-compose:1.8.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
@@ -86,4 +138,7 @@ dependencies {
 
     //lottie
     implementation("com.airbnb.android:lottie:6.0.0")
+
+    implementation(project(":quick_login"))
+
 }
