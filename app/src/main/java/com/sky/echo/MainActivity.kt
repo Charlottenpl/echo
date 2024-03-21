@@ -1,9 +1,7 @@
 package com.sky.echo
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
@@ -15,6 +13,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.sms.manager.Mobile
+import com.example.sms.manager.permission.PermissionManager
+import com.example.sms.manager.sms.SmsManager
+import com.example.sms.manager.util.Logger
 import com.netease.nis.quicklogin.listener.QuickLoginTokenListener
 import com.sky.echo.common.Route
 import com.sky.echo.ui.page.home.HomePage
@@ -27,9 +29,12 @@ import com.sky.quick_login.QuickLoginManager
 
 
 class MainActivity : ComponentActivity() {
+
+
+    /** ----------------------- 生命周期函数 ---------------------------*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        init(applicationContext);
+        init(this)
         setContent {
             EchoTheme {
                 AppNav()
@@ -37,9 +42,23 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Mobile.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-    fun init(context: Context){
-        FileUtil.init(context)
+    }
+
+
+    private fun init(activity: ComponentActivity){
+        FileUtil.init(activity)
+        Mobile.init(activity)
+        Mobile.setSMSCallback {
+            Logger.e("new sms: $it")
+        }
     }
 }
 
@@ -64,18 +83,8 @@ private fun AppNav(){
 
     NavHost(navController = navController, startDestination = Route.welcome){
         composable(Route.welcome){
-            WelcomePage(toLogin = {
-//                navController.navigate(Route.login)
-                QuickLoginManager.login(object : QuickLoginTokenListener() {
-                    override fun onGetTokenSuccess(p0: String?, p1: String?) {
-                        Log.e("QuickLogin", "onGetTokenSuccess: $p0 : $p1", )
-                    }
-
-                    override fun onGetTokenError(p0: String?, p1: String?) {
-                        Log.e("QuickLogin", "onGetTokenError: $p0 : $p1", )
-                    }
-
-                })
+            WelcomePage(nav = navController, toLogin = {
+                navController.navigate(Route.login)
             })
         }
 
@@ -98,6 +107,5 @@ private fun AppNav(){
         )){ params ->
             HomePage(params.arguments?.getString(Route.home_user)!!)
         }
-
     }
 }

@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "echo"
 include(":app")
 include(":quick_login")
+include(":mobile")

@@ -10,7 +10,7 @@ class MyApp: Application(){
     override fun onCreate() {
         super.onCreate()
         Log.e("MyApp", "onCreate: init", )
-        QuickLoginManager.init("23123123", applicationContext)
+        QuickLoginManager.init("bdbf047a00cb405f8cc15d6ffedac716", applicationContext)
         QuickLoginManager.prefetchNum(object : QuickLoginPreMobileListener() {
             override fun onGetMobileNumberSuccess(p0: String?, p1: String?) {
                 Log.e("QuickLogin", "onGetMobileNumberSuccess: $p0 : $p1", )
@@ -19,7 +19,6 @@ class MyApp: Application(){
             override fun onGetMobileNumberError(p0: String?, p1: String?) {
                 Log.e("QuickLogin", "onGetMobileNumberError: $p0 : $p1", )
             }
-
         })
     }
 }

@@ -134,11 +134,15 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
 
-    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.4")
 
     //lottie
     implementation("com.airbnb.android:lottie:6.0.0")
 
+    //data store
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     implementation(project(":quick_login"))
+    implementation(project(":mobile"))
 
 }

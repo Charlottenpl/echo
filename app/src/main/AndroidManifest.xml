@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!--本权限用于移动运营商在双卡情况下更精准地获取数据流量卡的运营商类型，缺少该权限存在取号失败率上升的风险-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <application
         android:name=".MyApp"
         android:allowBackup="true"
