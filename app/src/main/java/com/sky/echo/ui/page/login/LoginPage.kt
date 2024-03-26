@@ -20,11 +20,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.sky.echo.Intent.LoginIntent
+import com.sky.echo.common.key_userId
+import com.sky.echo.util.DataUtil
 import com.sky.echo.viewmodel.LoginViewModel
 
 class LoginViewModelDef : PreviewParameterProvider<LoginViewModel> {
@@ -38,7 +41,6 @@ class LoginViewModelDef : PreviewParameterProvider<LoginViewModel> {
 @Composable
 fun LoginPage(@PreviewParameter(LoginViewModelDef::class, 1) viewModel: LoginViewModel, toHome: ((String?) -> Unit) = {}) {
     val state by viewModel.state.observeAsState()
-
 
     Box (modifier = Modifier.fillMaxSize()){
         Column (

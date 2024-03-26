@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "com.example.sms"
     compileSdk = 34
+    version = 1
 
     defaultConfig {
         minSdk = 24

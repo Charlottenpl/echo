@@ -21,6 +21,7 @@ import com.netease.nis.quicklogin.listener.QuickLoginTokenListener
 import com.sky.echo.common.Route
 import com.sky.echo.ui.page.home.HomePage
 import com.sky.echo.ui.page.login.LoginPage
+import com.sky.echo.ui.page.welcome.StartPagePreview
 import com.sky.echo.ui.page.welcome.WelcomePage
 import com.sky.echo.ui.theme.EchoTheme
 import com.sky.echo.util.FileUtil
@@ -81,7 +82,11 @@ private fun AppNav(){
     }
 
 
-    NavHost(navController = navController, startDestination = Route.welcome){
+    NavHost(navController = navController, startDestination = Route.start){
+        composable(Route.start){
+            StartPagePreview(nav = navController)
+        }
+
         composable(Route.welcome){
             WelcomePage(nav = navController, toLogin = {
                 navController.navigate(Route.login)
@@ -97,7 +102,6 @@ private fun AppNav(){
                 }
             }
         }
-
 
         composable("${Route.home}/{${Route.home_user}}", arguments = listOf(
             navArgument(Route.home_user){
